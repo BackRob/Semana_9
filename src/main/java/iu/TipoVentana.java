@@ -1,17 +1,9 @@
 package iu;
 
 public enum TipoVentana {
-        CLIENTES,//{
-//        @Override
-//        public mostrarJTextArea(){
-//
-//        }
-//    };
+    CLIENTES,
     TOURS,
     VEHICULOS,
     GUIAS,
     RESERVAS,
-
-//    public abstract Void mostrarJTextArea(){
-
 }

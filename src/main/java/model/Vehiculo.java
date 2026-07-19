@@ -1,5 +1,6 @@
 package model;
 
+import iu.TipoVentana;
 import util.GestorDatos;
 import util.TipoDato;
 
@@ -55,10 +56,12 @@ public class Vehiculo implements IRegistrable {
 
     //Poliformismo
     @Override
-    public void registrarEnGestor(GestorDatos gestorDatos){gestorDatos.getDatos().add(this);} //registra en Gestor
+    public boolean esTipo(TipoVentana tipoVentana){return tipoVentana == tipoVentana.VEHICULOS;}
 
     @Override
-    public boolean esTipo(TipoDato tipoDato){return tipoDato == TipoDato.VEHICULO;}
+    public String getIdentificador() {
+        return getPatente();
+    }
 
     @Override
     public void registrarEnReserva(Reserva reserva){

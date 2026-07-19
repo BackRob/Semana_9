@@ -1,5 +1,6 @@
 package model;
 
+import iu.TipoVentana;
 import util.GestorDatos;
 import util.TipoDato;
 
@@ -32,10 +33,12 @@ public class Cliente extends Persona {
     }
 
     @Override
-    public void registrarEnGestor(GestorDatos gestorDatos){gestorDatos.getDatos().add(this);}
+    public boolean esTipo(TipoVentana tipoVentana){return tipoVentana == TipoVentana.CLIENTES;}
 
     @Override
-    public boolean esTipo(TipoDato tipoDato){return tipoDato == TipoDato.CLIENTE;}
+    public String getIdentificador() {
+        return getRut();
+    }
 
     @Override
     public String toString() {

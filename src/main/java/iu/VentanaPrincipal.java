@@ -2,6 +2,8 @@ package iu;
 
 
 
+import util.GestorDatos;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -12,10 +14,10 @@ public class VentanaPrincipal extends JFrame {
     private VentanaSecundaria ventanaVehiculos;
     private VentanaSecundaria ventanaGuias;
     private VentanaSecundaria ventanaReservas;
-
+    private final GestorDatos gestorDatos;
 
     public VentanaPrincipal() {
-
+        this.gestorDatos = new GestorDatos();
         setTitle("Sistema de Reservas");
         setSize(400, 300);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -43,7 +45,7 @@ public class VentanaPrincipal extends JFrame {
             if (ventanaClientes == null || !ventanaClientes.isDisplayable()) {
 
                 ventanaClientes =
-                        new VentanaSecundaria(TipoVentana.CLIENTES);
+                        new VentanaSecundaria(TipoVentana.CLIENTES,gestorDatos);
 
                 ventanaClientes.setVisible(true);
 
@@ -60,7 +62,7 @@ public class VentanaPrincipal extends JFrame {
             if (ventanaTours == null || !ventanaTours.isDisplayable()) {
 
                 ventanaTours =
-                        new VentanaSecundaria(TipoVentana.TOURS);
+                        new VentanaSecundaria(TipoVentana.TOURS,gestorDatos);
 
                 ventanaTours.setVisible(true);
 
@@ -77,7 +79,7 @@ public class VentanaPrincipal extends JFrame {
             if (ventanaVehiculos == null || !ventanaVehiculos.isDisplayable()) {
 
                 ventanaVehiculos =
-                        new VentanaSecundaria(TipoVentana.VEHICULOS);
+                        new VentanaSecundaria(TipoVentana.VEHICULOS,gestorDatos);
 
                 ventanaVehiculos.setVisible(true);
 
@@ -94,7 +96,7 @@ public class VentanaPrincipal extends JFrame {
             if (ventanaGuias == null || !ventanaGuias.isDisplayable()) {
 
                 ventanaGuias =
-                        new VentanaSecundaria(TipoVentana.GUIAS);
+                        new VentanaSecundaria(TipoVentana.GUIAS,gestorDatos);
 
                 ventanaGuias.setVisible(true);
 
@@ -112,7 +114,7 @@ public class VentanaPrincipal extends JFrame {
             if (ventanaReservas == null || !ventanaReservas.isDisplayable()) {
 
                 ventanaReservas =
-                        new VentanaSecundaria(TipoVentana.RESERVAS);
+                        new VentanaSecundaria(TipoVentana.RESERVAS,gestorDatos);
 
                 ventanaReservas.setVisible(true);
 

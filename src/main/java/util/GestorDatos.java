@@ -1,5 +1,7 @@
 package util;
 
+import Exceptions.DatosDuplicados;
+import iu.TipoVentana;
 import model.IRegistrable;
 import model.Reserva;
 
@@ -24,22 +26,40 @@ public class GestorDatos {
 
 
 
+    //Metodo para agregar
+    public void agregarAlGestor(IRegistrable registrable)throws DatosDuplicados {
+
+        for (IRegistrable aux : datos) {
+            if (registrable.getIdentificador()
+                    .equalsIgnoreCase(aux.getIdentificador())) {
+
+                throw new DatosDuplicados(
+                        "Ya existe un registro con ese identificador");
+            }
+        }
+
+        datos.add(registrable);
+    }
+
     //Metodo para mostrarPorTipo (Devuelve String)
-    public String mostrarPorTipo (TipoDato tipoDato){
+    public String mostrarPorTipo (TipoVentana tipoVentana){
         StringBuilder sb = new StringBuilder();
         int contador = 0;
-        if(datos!=null && !datos.isEmpty()){
+        if(!datos.isEmpty()){
             for(IRegistrable registrableAux:datos){
-                if (registrableAux.esTipo(tipoDato)){
-                    contador++;
-                    sb.append(registrableAux);
+                contador++;
+                if (registrableAux.esTipo(tipoVentana)){
+                    sb.append("ID: ").append(contador-1).append(" | ").append(registrableAux);
                 }
-
             }
         }else{
-            //exception
+            return "Lista Vacia";
         }
         return sb.toString();
     }
+
+    //Metodo para Agregar dependiento el tipo de ventana
+
+
 
 }

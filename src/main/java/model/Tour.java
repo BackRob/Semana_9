@@ -1,5 +1,7 @@
 package model;
 
+import Exceptions.DuracionInvalida;
+import iu.TipoVentana;
 import util.GestorDatos;
 import util.TipoDato;
 
@@ -15,7 +17,11 @@ public class Tour implements IRegistrable{
         this("SINNOMBRE",0.0,"SINTIPOTOUR","SINUBICACION");
     }
 
-    public Tour(String nombre, double duracion, String tipoTour, String ubicacion) {
+    public Tour(String nombre, double duracion, String tipoTour, String ubicacion){
+        if (duracion <= 0) {
+            throw new DuracionInvalida("La Duracion debe ser mayor a 0");
+        }
+
         this.nombre = nombre;
         this.duracion = duracion;
         this.tipoTour = tipoTour;
@@ -39,9 +45,12 @@ public class Tour implements IRegistrable{
         reserva.getTours().add(this);
     }
     @Override
-    public void registrarEnGestor(GestorDatos gestorDatos){gestorDatos.getDatos().add(this);}
+    public boolean esTipo(TipoVentana tipoVentana){return tipoVentana==tipoVentana.TOURS;}
+
     @Override
-    public boolean esTipo(TipoDato tipoDato){return tipoDato==TipoDato.TOUR;}
+    public String getIdentificador() {
+        return getNombre();
+    }
 
     @Override
     public String toString(){

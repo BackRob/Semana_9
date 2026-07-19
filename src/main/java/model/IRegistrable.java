@@ -1,11 +1,11 @@
 package model;
 
+import iu.TipoVentana;
 import util.GestorDatos;
-import util.TipoDato;
 
 public interface IRegistrable {
     String toString();
     void registrarEnReserva(Reserva reserva);
-    void registrarEnGestor(GestorDatos gestorDatos);
-    boolean esTipo(TipoDato tipo);
+    boolean esTipo(TipoVentana tipo);
+    String getIdentificador();
 }
