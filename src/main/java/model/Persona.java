@@ -1,6 +1,6 @@
 package model;
 
-public abstract class Persona {
+public abstract class Persona implements IRegistrable {
 
     private String nombre;
     private String rut;
