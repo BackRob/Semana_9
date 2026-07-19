@@ -1,6 +1,6 @@
 package model;
 
-public class Tour {
+public class Tour implements IRegistrable{
     private String nombre;
     private double duracion;
     private String tipoTour;

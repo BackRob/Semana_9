@@ -1,6 +1,6 @@
 package model;
 
-public class Vehiculo {
+public class Vehiculo implements IRegistrable {
     private String patente;
     private int año;
     private String marca;
