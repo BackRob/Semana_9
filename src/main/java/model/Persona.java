@@ -6,5 +6,10 @@ public abstract class Persona {
     private String rut;
 
     @Override
-    public abstract String toString();
+    public String toString(){
+
+        return "Nombre: "+ this.nombre +
+                "\nRut: "+this.rut+"\n";
+
+    };
 }
