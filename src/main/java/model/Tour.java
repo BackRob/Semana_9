@@ -37,7 +37,7 @@ public class Tour implements IRegistrable{
 
     @Override
     public String toString(){
-        return "\n[Tour]\n" +
+        return "[Tour]\n" +
                 "Nombre: "+this.nombre+
                 "\nDuracion: "+this.duracion+
                 "\nTipo de Tour: "+this.tipoTour+

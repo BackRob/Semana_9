@@ -33,7 +33,7 @@ public class Guia extends Persona{
 
     @Override
     public String toString() {
-        return "\n[Guia]\n" +
+        return "[Guia]" +
                 super.toString()+
                 "Tipo Guia: "+ this.tipoGuia+
                 "\nEmpresa: "+ this.empresa+"\n";

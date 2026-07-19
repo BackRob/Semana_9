@@ -38,7 +38,7 @@ public class Vehiculo implements IRegistrable {
     //SOBREESCRITURA
     @Override
     public String toString(){
-        return "\n[Vehiculo]\n" +
+        return "[Vehiculo]\n" +
                 "Patente: "+this.patente+
                 "\nAño: "+this.año+
                 "\nMarca: "+this.marca+
