@@ -46,4 +46,9 @@ public class Vehiculo implements IRegistrable {
                 "\nCapacidad Pasajeros: "+this.capacPasajeros+"\n";
     }
 
+
+    public void registrarEnReserva(Reserva reserva){
+        reserva.getVehiculos().add(this);
+    }
+
 }

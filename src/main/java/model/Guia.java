@@ -24,6 +24,13 @@ public class Guia extends Persona{
     public void setEmpresa(String empresa) {this.empresa = empresa;}
 
 
+    //Metodos interfaz
+
+    @Override
+    public void registrarEnReserva(Reserva reserva){ //metodo para poliformismo
+        reserva.getGuias().add(this);
+    }
+
     @Override
     public String toString() {
         return "\n[Guia]\n" +

@@ -30,7 +30,10 @@ public class Tour implements IRegistrable{
     public void setUbicacion(String ubicacion) {this.ubicacion = ubicacion;}
 
 
-
+    //poliformismo
+    public void registrarEnReserva(Reserva reserva){
+        reserva.getTours().add(this);
+    }
 
     @Override
     public String toString(){

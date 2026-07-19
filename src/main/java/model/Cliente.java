@@ -19,6 +19,15 @@ public class Cliente extends Persona {
     public void setNumeroTarjeta(String numeroTarjeta) {this.numeroTarjeta = numeroTarjeta;}
 
 
+
+
+    //poliformismo
+    @Override
+    public void registrarEnReserva(Reserva reserva){
+        reserva.getClientes().add(this);
+    }
+
+
     @Override
     public String toString() {
         return "\n[Cliente]\n"+

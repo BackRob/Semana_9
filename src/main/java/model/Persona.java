@@ -26,4 +26,9 @@ public abstract class Persona implements IRegistrable {
                 "\nRut: "+this.rut+"\n";
 
     };
+
+    public abstract void registrarEnReserva(Reserva reserva);
+
 }
+
+
