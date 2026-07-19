@@ -1,6 +1,9 @@
 package app;
 
+import iu.VentanaPrincipal;
 import model.*;
+
+import javax.swing.*;
 
 public class main {
 
@@ -21,6 +24,9 @@ public class main {
         System.out.println(reserva1.mostrar());
 
 
-
+        SwingUtilities.invokeLater(() -> {
+            VentanaPrincipal ventana = new VentanaPrincipal();
+            ventana.setVisible(true);
+        });
     }
 }
