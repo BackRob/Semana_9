@@ -2,6 +2,7 @@ package iu;
 
 import Exceptions.DatosDuplicados;
 import Exceptions.DuracionInvalida;
+import Exceptions.NoExisteCoincidencia;
 import model.Cliente;
 import model.Guia;
 import model.Tour;
@@ -16,6 +17,8 @@ public class VentanaSecundaria extends JFrame {
     private JTextArea txtArea;
     private TipoVentana tipoVentana;
     private GestorDatos gestorDatos;
+    private boolean modoBuscar = false;
+    private JButton btnBuscar;
 
     public VentanaSecundaria(TipoVentana tipo,GestorDatos gestorDatos) {
          this.tipoVentana = tipo;
@@ -36,7 +39,7 @@ public class VentanaSecundaria extends JFrame {
 
         JButton btnAgregar = new JButton("Agregar");
         JButton btnMostrar = new JButton("Mostrar");
-        JButton btnBuscar = new JButton("Buscar");
+        btnBuscar = new JButton("Buscar");
         JButton btnVolver = new JButton("Volver");
 
         panelBotones.add(btnAgregar);
@@ -48,6 +51,7 @@ public class VentanaSecundaria extends JFrame {
         add(panelBotones, BorderLayout.SOUTH);
         btnAgregar.addActionListener(e -> agregar());
         btnVolver.addActionListener(e -> dispose());
+        btnBuscar.addActionListener(e -> buscar());
 
         setVisible(true);
 
@@ -310,6 +314,45 @@ public class VentanaSecundaria extends JFrame {
         }
     }
 
+
+    //metodo para buscar y cambiar comportamiento del boton
+    public void buscar(){
+        if (!modoBuscar) {
+            modoBuscar = true;
+            txtArea.setText("Modo Busqueda activado\n");
+            btnBuscar.setText("Limpiar");
+            String string;
+            if(tipoVentana==TipoVentana.CLIENTES||tipoVentana==TipoVentana.GUIAS) {
+                string = pedirRut();
+            }else if(tipoVentana==TipoVentana.TOURS){
+                string = pedirString("Nombre:");
+            } else{
+                string = pedirString("Patente:");
+            }
+            if (string==null){
+                btnBuscar.setText("Buscar");
+                actualizarJTexArea();
+                modoBuscar = false;
+                return;
+            }
+
+            try {
+                txtArea.append(gestorDatos.buscarGestor(string,tipoVentana));
+            }catch (NoExisteCoincidencia e){
+                mostrarError("No existe Coincidencia con el valor buscado");
+                btnBuscar.setText("Buscar");
+                actualizarJTexArea();
+                modoBuscar = false;
+                return;
+            }
+
+        } else {
+
+            btnBuscar.setText("Buscar");
+            actualizarJTexArea();
+            modoBuscar = false;
+        }
+    }
 
 
 }

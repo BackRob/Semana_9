@@ -1,7 +1,9 @@
 package util;
 
 import Exceptions.DatosDuplicados;
+import Exceptions.NoExisteCoincidencia;
 import iu.TipoVentana;
+import model.Cliente;
 import model.IRegistrable;
 import model.Reserva;
 
@@ -16,6 +18,7 @@ public class GestorDatos {
     public GestorDatos(){
         datos = new ArrayList<>();
         reservas = new ArrayList<>();
+        cargar();
     }
 
     //GETS Y SETS
@@ -43,7 +46,7 @@ public class GestorDatos {
 
     //Metodo para mostrarPorTipo (Devuelve String)
     public String mostrarPorTipo (TipoVentana tipoVentana){
-        StringBuilder sb = new StringBuilder();
+        StringBuilder sb = new StringBuilder("----Listado----\n");
         int contador = 0;
         if(!datos.isEmpty()){
             for(IRegistrable registrableAux:datos){
@@ -58,8 +61,22 @@ public class GestorDatos {
         return sb.toString();
     }
 
-    //Metodo para Agregar dependiento el tipo de ventana
+    //Metodo para buscar
+    public String buscarGestor(String identificador,TipoVentana tipoVentana){
+        for(IRegistrable registrableAux:datos){
+            if (registrableAux.esTipo(tipoVentana)&& identificador.equalsIgnoreCase(registrableAux.getIdentificador())) {
+                return registrableAux.toString();
+            }
+        }
+        throw new NoExisteCoincidencia("No se encontro Coincidencia");
+    }
 
+    //metodo para cargar datos y probar
+    private void cargar(){
+        agregarAlGestor(new Cliente("Brian Vallejos","11111111-1","232312123"));
+        agregarAlGestor(new Cliente("Brian castro","22222222-2","2323123"));
+        agregarAlGestor(new Cliente("Brian johan","33333333-3","223123"));
+    }
 
 
 }
