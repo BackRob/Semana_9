@@ -8,7 +8,7 @@ public abstract class Persona {
     @Override
     public String toString(){
 
-        return "Nombre: "+ this.nombre +
+        return "\nNombre: "+ this.nombre +
                 "\nRut: "+this.rut+"\n";
 
     };
