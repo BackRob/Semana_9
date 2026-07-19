@@ -1,4 +1,8 @@
 package model;
+
+import util.GestorDatos;
+import util.TipoDato;
+
 public class Cliente extends Persona {
 
     private String numeroTarjeta;
@@ -27,6 +31,11 @@ public class Cliente extends Persona {
         reserva.getClientes().add(this);
     }
 
+    @Override
+    public void registrarEnGestor(GestorDatos gestorDatos){gestorDatos.getDatos().add(this);}
+
+    @Override
+    public boolean esTipo(TipoDato tipoDato){return tipoDato == TipoDato.CLIENTE;}
 
     @Override
     public String toString() {

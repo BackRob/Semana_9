@@ -1,5 +1,8 @@
 package model;
 
+import util.GestorDatos;
+import util.TipoDato;
+
 public abstract class Persona implements IRegistrable {
 
     private String nombre;
@@ -26,8 +29,9 @@ public abstract class Persona implements IRegistrable {
                 "\nRut: "+this.rut+"\n";
 
     };
-
+    public abstract boolean esTipo(TipoDato tipoDato);
     public abstract void registrarEnReserva(Reserva reserva);
+    public abstract void registrarEnGestor(GestorDatos gestorDatos);
 
 }
 

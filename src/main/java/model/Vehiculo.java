@@ -1,5 +1,8 @@
 package model;
 
+import util.GestorDatos;
+import util.TipoDato;
+
 public class Vehiculo implements IRegistrable {
     private String patente;
     private int año;
@@ -35,6 +38,8 @@ public class Vehiculo implements IRegistrable {
     public void setCapacPasajeros(int capacPasajeros) {this.capacPasajeros = capacPasajeros;}
 
 
+
+
     //SOBREESCRITURA
     @Override
     public String toString(){
@@ -47,8 +52,17 @@ public class Vehiculo implements IRegistrable {
     }
 
 
+
+    //Poliformismo
+    @Override
+    public void registrarEnGestor(GestorDatos gestorDatos){gestorDatos.getDatos().add(this);} //registra en Gestor
+
+    @Override
+    public boolean esTipo(TipoDato tipoDato){return tipoDato == TipoDato.VEHICULO;}
+
+    @Override
     public void registrarEnReserva(Reserva reserva){
         reserva.getVehiculos().add(this);
-    }
+    } //Registra en reserva
 
 }

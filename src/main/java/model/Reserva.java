@@ -19,6 +19,8 @@ public class Reserva{
     }
 
 
+
+
     //gets y set (vere si los uso, sino los borrare para proteger datos)
     public List<Tour> getTours() {return tours;}
     public List<Cliente> getClientes() {return clientes;}

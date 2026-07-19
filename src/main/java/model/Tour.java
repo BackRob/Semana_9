@@ -1,5 +1,8 @@
 package model;
 
+import util.GestorDatos;
+import util.TipoDato;
+
 public class Tour implements IRegistrable{
     private String nombre;
     private double duracion;
@@ -31,9 +34,14 @@ public class Tour implements IRegistrable{
 
 
     //poliformismo
+    @Override
     public void registrarEnReserva(Reserva reserva){
         reserva.getTours().add(this);
     }
+    @Override
+    public void registrarEnGestor(GestorDatos gestorDatos){gestorDatos.getDatos().add(this);}
+    @Override
+    public boolean esTipo(TipoDato tipoDato){return tipoDato==TipoDato.TOUR;}
 
     @Override
     public String toString(){

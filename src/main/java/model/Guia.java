@@ -1,5 +1,8 @@
 package model;
 
+import util.GestorDatos;
+import util.TipoDato;
+
 public class Guia extends Persona{
 
     private String tipoGuia;
@@ -25,6 +28,13 @@ public class Guia extends Persona{
 
 
     //Metodos interfaz
+    @Override
+    public void registrarEnGestor(GestorDatos gestorDatos){gestorDatos.getDatos().add(this);}
+
+    @Override
+    public boolean esTipo(TipoDato tipoDato){ //para verificar el tipo de dato
+        return tipoDato == TipoDato.GUIA;
+    }
 
     @Override
     public void registrarEnReserva(Reserva reserva){ //metodo para poliformismo
