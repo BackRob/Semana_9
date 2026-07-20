@@ -1,7 +1,6 @@
 package model;
 
 import iu.TipoVentana;
-import util.GestorDatos;
 
 public abstract class Persona implements IRegistrable {
 

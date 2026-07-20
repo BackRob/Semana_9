@@ -1,10 +1,6 @@
 package app;
 
-import iu.TipoVentana;
 import iu.VentanaPrincipal;
-import model.*;
-import util.TipoDato;
-import util.GestorDatos;
 
 import javax.swing.*;
 

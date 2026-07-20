@@ -3,8 +3,6 @@ package model;
 import Exceptions.DatosDuplicados;
 import Exceptions.DuracionInvalida;
 import iu.TipoVentana;
-import util.GestorDatos;
-import util.TipoDato;
 
 public class Tour implements IRegistrable{
     private String nombre;

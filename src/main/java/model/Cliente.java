@@ -2,8 +2,6 @@ package model;
 
 import Exceptions.DatosDuplicados;
 import iu.TipoVentana;
-import util.GestorDatos;
-import util.TipoDato;
 
 public class Cliente extends Persona {
 

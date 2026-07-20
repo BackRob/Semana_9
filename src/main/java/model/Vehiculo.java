@@ -1,8 +1,6 @@
 package model;
 
 import iu.TipoVentana;
-import util.GestorDatos;
-import util.TipoDato;
 
 public class Vehiculo implements IRegistrable {
     private String patente;
