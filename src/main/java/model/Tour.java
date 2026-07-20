@@ -65,10 +65,10 @@ public class Tour implements IRegistrable{
 
     @Override
     public String toString(){
-        return "[Tour]\n" +
+        return "[Tour] | " +
                 "Nombre: "+this.nombre+
-                "\nDuracion: "+this.duracion+
-                "\nTipo de Tour: "+this.tipoTour+
-                "\nUbicacion: "+this.ubicacion+"\n";
+                " | Duracion: "+this.duracion+
+                " |Tipo de Tour: "+this.tipoTour+
+                " | Ubicacion: "+this.ubicacion+"\n";
     }
 }

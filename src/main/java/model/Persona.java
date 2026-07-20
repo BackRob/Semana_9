@@ -25,8 +25,8 @@ public abstract class Persona implements IRegistrable {
     @Override
     public String toString(){
 
-        return "\nNombre: "+ this.nombre +
-                "\nRut: "+this.rut+"\n";
+        return " | Nombre: "+ this.nombre +
+                " | Rut: "+this.rut;
 
     };
     public abstract boolean esTipo(TipoVentana tipoVentana);

@@ -61,7 +61,7 @@ public class VentanaSecundaria extends JFrame {
         txtArea.setText(gestorDatos.mostrarPorTipo(tipoVentana));
     }
 
-    public void agregar() throws DatosDuplicados {
+    public void agregar(){
         switch (tipoVentana){
             case GUIAS -> solicitarGuia();
             case CLIENTES -> solicitarCliente();
@@ -353,51 +353,51 @@ public class VentanaSecundaria extends JFrame {
         }
     }
 
-    public void solicitarReserva(){
+    public void solicitarReserva() {
         StringBuilder sb;
 
-        Integer seleccion=-1;
+        Integer seleccion = -1;
 
         String fecha = pedirString("Ingrese una fecha");
-        if (fecha==null){
+        if (fecha == null) {
             mostrarMensaje("Operacion Cancelada");
             return;
         }
         Reserva reserva = gestorDatos.crearReserva(fecha);
 
         //Cliente
-        while (true){
+        while (true) {
             sb = new StringBuilder();
             sb.append("Seleccione el ID del cliente exitente o cree uno nuevo\n");
             try {
                 seleccion = pedirInt(sb.append(gestorDatos.obtenerClientesDisponibles(fecha)).append("\n-2.-Continuar sin agregar").toString());
-                if (seleccion==null){
+                if (seleccion == null) {
                     mostrarMensaje("Se cancelo la Operacion");
                     return;
                 }
-            }catch (RecursoNoDisponible e){
-                if(reserva.getClientes().isEmpty()) {
+            } catch (RecursoNoDisponible e) {
+                if (reserva.getClientes().isEmpty()) {
                     mostrarError(e.toString());
-                }else{
+                } else {
                     seleccion = -2;
                 }
 
             }
 
-            if (seleccion>=0){
+            if (seleccion >= 0) {
                 try {
-                    gestorDatos.agregarAReserva(TipoVentana.CLIENTES,seleccion,reserva);
+                    gestorDatos.agregarAReserva(TipoVentana.CLIENTES, seleccion, reserva);
                     sb.setLength(0);
 
-                }catch (DatosDuplicados e){
+                } catch (DatosDuplicados e) {
                     mostrarMensaje(e.toString());
-                }catch (NoExisteCoincidencia e) {
+                } catch (NoExisteCoincidencia e) {
                     mostrarMensaje(e.toString());
                 }
 
-            } else if (seleccion==-2 && !reserva.getClientes().isEmpty()) {
+            } else if (seleccion == -2 && !reserva.getClientes().isEmpty()) {
                 break;
-            }else if (seleccion==-2 && reserva.getClientes().isEmpty()){
+            } else if (seleccion == -2 && reserva.getClientes().isEmpty()) {
                 mostrarError("Debe Ingresar al menos 1 Cliente");
 
             }
@@ -405,51 +405,159 @@ public class VentanaSecundaria extends JFrame {
 
 
         //vehiculo
-        while (true){
+        while (true) {
+
             sb = new StringBuilder();
-            sb.append("Seleccione el ID del cliente exitente o cree uno nuevo\n");
+
             try {
-                seleccion = pedirInt(sb.append(gestorDatos.obtenerVehiculosDisponibles(fecha)).append("\n-2.-Continuar sin agregar").toString());
-                if (seleccion==null){
-                    mostrarMensaje("Se cancelo la Operacion");
+
+                sb.append("Seleccione el ID del vehículo existente\n")
+                        .append(gestorDatos.obtenerVehiculosDisponibles(fecha))
+                        .append("\n-2.- Continuar sin agregar");
+
+                seleccion = pedirInt(sb.toString());
+
+                if (seleccion == null) {
+                    mostrarMensaje("Se canceló la operación");
                     return;
                 }
-            }catch (RecursoNoDisponible e){
-                if (!reserva.getVehiculos().isEmpty() &&gestorDatos.verificarCapacidad(reserva)){
-                    seleccion=-2;
-                } else if (reserva.getVehiculos().isEmpty()) {
-                    seleccion=-2;
-                }else {
-                    mostrarError(e.toString());
+
+            } catch (RecursoNoDisponible e) {
+
+                // Si no hay más vehículos disponibles
+                if (reserva.getVehiculos().isEmpty()) {
+                    seleccion = -2;
+                } else if (gestorDatos.verificarCapacidad(reserva)) {
+                    seleccion = -2;
+                } else {
+                    mostrarError(
+                            "La capacidad de los vehículos no alcanza.\n" +
+                                    "Faltan " + cuantoFaltanParaVehiculo(reserva) +
+                                    " cupos."
+                    );
+                    continue;
                 }
             }
 
-            if (seleccion>=0){
-                try {
-                    gestorDatos.agregarAReserva(TipoVentana.VEHICULOS,seleccion,reserva);
-                    sb.setLength(0);
+            if (seleccion >= 0) {
 
-                }catch (DatosDuplicados e){
-                    mostrarMensaje(e.toString());
-                }catch (NoExisteCoincidencia e) {
-                    if(reserva.getClientes().isEmpty()) {
-                        mostrarError(e.toString());
-                    }else{
-                        seleccion = -2;
-                    }
+                try {
+
+                    gestorDatos.agregarAReserva(
+                            TipoVentana.VEHICULOS,
+                            seleccion,
+                            reserva
+                    );
+
+                } catch (DatosDuplicados | NoExisteCoincidencia e) {
+
+                    mostrarError(e.getMessage());
                 }
 
-            } else if (seleccion==-2 && reserva.getVehiculos().isEmpty()) {
-                seleccion=-2;
-                break;
-            }else if (seleccion==-2 && !reserva.getVehiculos().isEmpty() && !gestorDatos.verificarCapacidad(reserva)){
-                mostrarError("Si Contrata vehiculo, cada cliente debe tener espacio en un vehiculo"+
-                        "\nLe falta completar la capacidad de: "+cuantoFaltanParaVehiculo(reserva));
+            } else if (seleccion == -2) {
 
+                // No contrató vehículos
+                if (reserva.getVehiculos().isEmpty()) {
+                    break;
+                }
 
+                // Contrató vehículos y alcanzan
+                if (gestorDatos.verificarCapacidad(reserva)) {
+                    break;
+                }
+
+                // Contrató vehículos pero no alcanzan
+                mostrarError(
+                        "Si contrata vehículos, todos los clientes deben tener asiento.\n" +
+                                "Faltan " + cuantoFaltanParaVehiculo(reserva) +
+                                " cupos."
+                );
             }
         }
-
+        //Guia
+        while (true) {
+            sb = new StringBuilder();
+            try {
+                sb.append("Seleccione el ID del guía existente\n")
+                        .append(gestorDatos.obtenerGuiasDisponibles(fecha))
+                        .append("\n-2.-Continuar sin agregar");
+                seleccion = pedirInt(sb.toString());
+                if (seleccion == null) {
+                    mostrarMensaje("Se canceló la operación");
+                    return;
+                }
+            } catch (RecursoNoDisponible e) {
+                if (gestorDatos.verificarGuias(reserva)) {
+                    seleccion = -2;
+                } else {
+                    mostrarError(
+                            "Debe agregar más guías.\n" +
+                                    "Faltan: " +
+                                    gestorDatos.cuantosGuiasFaltan(reserva)
+                    );
+                    continue;
+                }
+            }
+            if (seleccion >= 0) {
+                try {
+                    gestorDatos.agregarAReserva(
+                            TipoVentana.GUIAS,
+                            seleccion,
+                            reserva
+                    );
+                } catch (DatosDuplicados e) {
+                    mostrarError(e.getMessage());
+                } catch (NoExisteCoincidencia e) {
+                    mostrarError(e.getMessage());
+                }
+            }
+            else if (seleccion == -2) {
+                if (gestorDatos.verificarGuias(reserva)) {
+                    break;
+                }
+                mostrarError(
+                        "Debe agregar más guías.\n" +
+                                "Faltan: " +
+                                gestorDatos.cuantosGuiasFaltan(reserva)
+                );
+            }
+        }
+        //tours
+        while (true) {
+            sb = new StringBuilder();
+            try {
+                sb.append("Seleccione el ID del tour existente\n")
+                        .append(gestorDatos.obtenerToursDisponibles(reserva))
+                        .append("\n-2.- Continuar");
+                seleccion = pedirInt(sb.toString());
+                if (seleccion == null) {
+                    mostrarMensaje("Se canceló la operación");
+                    return;
+                }
+            } catch (Exception e) {
+                mostrarError(e.getMessage());
+            }
+            if (seleccion >= 0) {
+                try {
+                    gestorDatos.agregarAReserva(
+                            TipoVentana.TOURS,
+                            seleccion,
+                            reserva
+                    );
+                } catch (DatosDuplicados | NoExisteCoincidencia e) {
+                    mostrarError(e.getMessage());
+                }
+            }
+            else if (seleccion == -2) {
+                if (gestorDatos.verificarTours(reserva)) {
+                    break;
+                }
+                mostrarError(
+                        "Debe ingresar al menos un Tour"
+                );
+            }
+        }
+        actualizarJTexArea();
     }
 
     public Integer cuantoFaltanParaVehiculo(Reserva reserva){
@@ -461,5 +569,6 @@ public class VentanaSecundaria extends JFrame {
 
         return totalClientes - capacidadTotal;
     }
+
 
 }

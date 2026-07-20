@@ -49,7 +49,7 @@ public class Guia extends Persona{
     public String toString() {
         return "[Guia]" +
                 super.toString()+
-                "Tipo Guia: "+ this.tipoGuia+
-                "\nEmpresa: "+ this.empresa+"\n";
+                " | Tipo Guia: "+ this.tipoGuia+
+                " | Empresa: "+ this.empresa+"\n";
     }
 }

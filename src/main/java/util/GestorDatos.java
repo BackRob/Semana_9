@@ -45,14 +45,32 @@ public class GestorDatos {
     }
 
     //Metodo para mostrarPorTipo (Devuelve String)
-    public String mostrarPorTipo (TipoVentana tipoVentana){
+    public String mostrarPorTipo(TipoVentana tipoVentana){
         StringBuilder sb = new StringBuilder("----Listado----\n");
+        if(tipoVentana == TipoVentana.RESERVAS){
+            if(reservas.isEmpty()){
+                return "Lista Vacia";
+            }
+            int id = 0;
+            for(Reserva reserva : reservas){
+                sb.append("\n\nID: ")
+                        .append(id++)
+                        .append(" | ")
+                        .append(reserva.mostrar())
+                        .append("\n");
+            }
+            return sb.toString();
+        }
         int contador = 0;
         if(!datos.isEmpty()){
-            for(IRegistrable registrableAux:datos){
+            for(IRegistrable registrableAux : datos){
                 contador++;
-                if (registrableAux.esTipo(tipoVentana)){
-                    sb.append("ID: ").append(contador-1).append(" | ").append(registrableAux);
+                if(registrableAux.esTipo(tipoVentana)){
+
+                    sb.append("ID: ")
+                            .append(contador - 1)
+                            .append(" | ")
+                            .append(registrableAux);
                 }
             }
         }else{
@@ -81,6 +99,34 @@ public class GestorDatos {
         agregarAlGestor(new Guia("Cristian Lizana","55555555-3","Llanquigue Tour","Escalada"));
         agregarAlGestor(new Guia("Cristian Pablaza","55555555-4","Llanquigue Tour","Turistico"));
         agregarAlGestor(new Guia("Cristian Quezada","55555555-5","Llanquigue Tour","Turistico"));
+        agregarAlGestor(new Tour("Volcan Osorno", 6.5, "Montaña", "Puerto Varas"));
+        agregarAlGestor(new Tour("Saltos del Petrohue", 3.0, "Naturaleza", "Ensenada"));
+        agregarAlGestor(new Tour("Lago Todos los Santos", 4.5, "Navegacion", "Puerto Varas"));
+        agregarAlGestor(new Tour("Trekking Alerce Andino", 7.0, "Aventura", "Puerto Montt"));
+        agregarAlGestor(new Tour("Circuito Frutillar", 2.5, "Cultural", "Frutillar"));
+        agregarAlGestor(new Tour("Termas de Puyehue", 8.0, "Relax", "Osorno"));
+        agregarAlGestor(new Tour("Isla Tenglo", 2.0, "Historico", "Puerto Montt"));
+        agregarAlGestor(new Tour("Parque Nacional Vicente Perez Rosales", 5.5, "Ecoturismo", "Puerto Varas"));
+        agregarAlGestor(new Tour("Kayak Rio Maullin", 4.0, "Aventura", "Maullin"));
+        agregarAlGestor(new Tour("Ruta Patrimonial de Chiloe", 10.0, "Cultural", "Castro"));
+
+        Reserva r1 = crearReserva("2026-08-10");
+        agregarAReserva(TipoVentana.CLIENTES, 0, r1);
+        agregarAReserva(TipoVentana.GUIAS, 5, r1);
+        agregarAReserva(TipoVentana.TOURS, 8, r1);
+
+        Reserva r2 = crearReserva("2026-08-10");
+        agregarAReserva(TipoVentana.CLIENTES, 1, r2);
+        agregarAReserva(TipoVentana.GUIAS, 6, r2);
+        agregarAReserva(TipoVentana.VEHICULOS, 3, r2);
+        agregarAReserva(TipoVentana.TOURS, 9, r2);
+
+        Reserva r3 = crearReserva("2026-08-11");
+        agregarAReserva(TipoVentana.CLIENTES, 2, r3);
+        agregarAReserva(TipoVentana.GUIAS, 7, r3);
+        agregarAReserva(TipoVentana.VEHICULOS, 4, r3);
+        agregarAReserva(TipoVentana.TOURS, 10, r3);
+        agregarAReserva(TipoVentana.TOURS, 11, r3);
 
     }
 
@@ -204,5 +250,53 @@ public class GestorDatos {
         reservas.add(reserva = new Reserva(fecha));
         return reserva;
     }
+    public boolean verificarGuias(Reserva reserva){
+        int guiasNecesarios;
+        if(reserva.getVehiculos().isEmpty()){
+            guiasNecesarios = 1;
+        }else{
+            guiasNecesarios = reserva.getVehiculos().size();
+        }
+        return reserva.getGuias().size() >= guiasNecesarios;
+    }
 
+    public int cuantosGuiasFaltan(Reserva reserva){
+        int guiasNecesarios;
+        if(reserva.getVehiculos().isEmpty()){
+            guiasNecesarios = 1;
+        }else{
+            guiasNecesarios = reserva.getVehiculos().size();
+        }
+        return guiasNecesarios - reserva.getGuias().size();
+    }
+    public boolean verificarTours(Reserva reserva){
+        return !reserva.getTours().isEmpty();
+    }
+
+    public String obtenerToursDisponibles(Reserva reserva){
+
+        StringBuilder sb = new StringBuilder();
+        int contador = 0;
+        int idDatos = -1;
+        for(IRegistrable dato : datos){
+            idDatos++;
+            if(dato instanceof Tour tour){
+                if(!reserva.getTours().contains(tour)){
+                    contador++;
+                    sb.append("ID: ")
+                            .append(idDatos)
+                            .append("|")
+                            .append(tour.getNombre())
+                            .append(" - ")
+                            .append(tour.getUbicacion())
+                            .append("\n");
+                }
+            }
+        }
+        if(contador == 0){
+            throw new RecursoNoDisponible(
+                    "No quedan tours disponibles para agregar");
+        }
+        return sb.toString();
+    }
 }

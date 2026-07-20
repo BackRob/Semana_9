@@ -49,11 +49,11 @@ public class Reserva{
         StringBuilder sb = new StringBuilder();
 
         if(clientes!=null && !clientes.isEmpty()){
-        sb.append("[RESERVA: \"").append(clientes.get(0).getNombre()).append("\"]\n");
+        sb.append("[RESERVA: \"").append(clientes.get(0).getNombre()).append("\"]");
         }else {
-            sb.append("[Reserva: \"SINNOMBRE\"]\n");
+            sb.append("[Reserva: \"SINNOMBRE\"]");
         }
-
+        sb.append("fecha: ").append(fecha).append("\n");
         int contadorT = 0;
         int contadorC = 0;
         int contadorV = 0;
@@ -61,25 +61,25 @@ public class Reserva{
         sb.append("----Tours----\n");
         for(Tour tourAux : tours){
             contadorT++;
-            sb.append(contadorT).append(".-").append(tourAux).append("\n");
+            sb.append(contadorT).append(".-").append(tourAux);
         }
         sb.append("--------\n");
         sb.append("----Clientes----\n");
         for (Cliente clienteAux : clientes){
             contadorC++;
-            sb.append(contadorC).append(".-").append(clienteAux).append("\n");
+            sb.append(contadorC).append(".-").append(clienteAux);
         }
         sb.append("--------\n");
         sb.append("----Vehiculos----\n");
         for (Vehiculo vehiculoAux : vehiculos){
             contadorV++;
-            sb.append(contadorV).append(".-").append(vehiculoAux).append("\n");
+            sb.append(contadorV).append(".-").append(vehiculoAux);
         }
         sb.append("--------\n");
         sb.append("----Guias----\n");
         for (Guia guiaAux : guias){
             contadorG++;
-            sb.append(contadorG).append(".-").append(guiaAux).append("\n");
+            sb.append(contadorG).append(".-").append(guiaAux);
         }
         sb.append("--------\n");
         return sb.toString();
