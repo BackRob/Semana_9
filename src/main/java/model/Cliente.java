@@ -1,5 +1,6 @@
 package model;
 
+import Exceptions.DatosDuplicados;
 import iu.TipoVentana;
 import util.GestorDatos;
 import util.TipoDato;
@@ -29,7 +30,11 @@ public class Cliente extends Persona {
     //poliformismo
     @Override
     public void registrarEnReserva(Reserva reserva){
-        reserva.getClientes().add(this);
+        if (!reserva.getClientes().contains(this)) {
+            reserva.getClientes().add(this);
+        }else{
+            throw new DatosDuplicados("Cliente Duplicado");
+        }
     }
 
     @Override

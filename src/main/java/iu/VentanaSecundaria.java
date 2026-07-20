@@ -3,10 +3,8 @@ package iu;
 import Exceptions.DatosDuplicados;
 import Exceptions.DuracionInvalida;
 import Exceptions.NoExisteCoincidencia;
-import model.Cliente;
-import model.Guia;
-import model.Tour;
-import model.Vehiculo;
+import Exceptions.RecursoNoDisponible;
+import model.*;
 import util.GestorDatos;
 
 import javax.swing.*;
@@ -69,6 +67,7 @@ public class VentanaSecundaria extends JFrame {
             case CLIENTES -> solicitarCliente();
             case TOURS ->solicitarTour();
             case VEHICULOS ->solicitarVehiculo();
+            case RESERVAS -> solicitarReserva();
         }
     }
 
@@ -354,5 +353,113 @@ public class VentanaSecundaria extends JFrame {
         }
     }
 
+    public void solicitarReserva(){
+        StringBuilder sb;
+
+        Integer seleccion=-1;
+
+        String fecha = pedirString("Ingrese una fecha");
+        if (fecha==null){
+            mostrarMensaje("Operacion Cancelada");
+            return;
+        }
+        Reserva reserva = gestorDatos.crearReserva(fecha);
+
+        //Cliente
+        while (true){
+            sb = new StringBuilder();
+            sb.append("Seleccione el ID del cliente exitente o cree uno nuevo\n");
+            try {
+                seleccion = pedirInt(sb.append(gestorDatos.obtenerClientesDisponibles(fecha)).append("\n-2.-Continuar sin agregar").toString());
+                if (seleccion==null){
+                    mostrarMensaje("Se cancelo la Operacion");
+                    return;
+                }
+            }catch (RecursoNoDisponible e){
+                if(reserva.getClientes().isEmpty()) {
+                    mostrarError(e.toString());
+                }else{
+                    seleccion = -2;
+                }
+
+            }
+
+            if (seleccion>=0){
+                try {
+                    gestorDatos.agregarAReserva(TipoVentana.CLIENTES,seleccion,reserva);
+                    sb.setLength(0);
+
+                }catch (DatosDuplicados e){
+                    mostrarMensaje(e.toString());
+                }catch (NoExisteCoincidencia e) {
+                    mostrarMensaje(e.toString());
+                }
+
+            } else if (seleccion==-2 && !reserva.getClientes().isEmpty()) {
+                break;
+            }else if (seleccion==-2 && reserva.getClientes().isEmpty()){
+                mostrarError("Debe Ingresar al menos 1 Cliente");
+
+            }
+        }
+
+
+        //vehiculo
+        while (true){
+            sb = new StringBuilder();
+            sb.append("Seleccione el ID del cliente exitente o cree uno nuevo\n");
+            try {
+                seleccion = pedirInt(sb.append(gestorDatos.obtenerVehiculosDisponibles(fecha)).append("\n-2.-Continuar sin agregar").toString());
+                if (seleccion==null){
+                    mostrarMensaje("Se cancelo la Operacion");
+                    return;
+                }
+            }catch (RecursoNoDisponible e){
+                if (!reserva.getVehiculos().isEmpty() &&gestorDatos.verificarCapacidad(reserva)){
+                    seleccion=-2;
+                } else if (reserva.getVehiculos().isEmpty()) {
+                    seleccion=-2;
+                }else {
+                    mostrarError(e.toString());
+                }
+            }
+
+            if (seleccion>=0){
+                try {
+                    gestorDatos.agregarAReserva(TipoVentana.VEHICULOS,seleccion,reserva);
+                    sb.setLength(0);
+
+                }catch (DatosDuplicados e){
+                    mostrarMensaje(e.toString());
+                }catch (NoExisteCoincidencia e) {
+                    if(reserva.getClientes().isEmpty()) {
+                        mostrarError(e.toString());
+                    }else{
+                        seleccion = -2;
+                    }
+                }
+
+            } else if (seleccion==-2 && reserva.getVehiculos().isEmpty()) {
+                seleccion=-2;
+                break;
+            }else if (seleccion==-2 && !reserva.getVehiculos().isEmpty() && !gestorDatos.verificarCapacidad(reserva)){
+                mostrarError("Si Contrata vehiculo, cada cliente debe tener espacio en un vehiculo"+
+                        "\nLe falta completar la capacidad de: "+cuantoFaltanParaVehiculo(reserva));
+
+
+            }
+        }
+
+    }
+
+    public Integer cuantoFaltanParaVehiculo(Reserva reserva){
+        Integer capacidadTotal= 0;
+        Integer totalClientes = reserva.getClientes().size();
+        for (Vehiculo vehiculo:reserva.getVehiculos()){
+            capacidadTotal=vehiculo.getCapacPasajeros()+capacidadTotal;
+        }
+
+        return totalClientes - capacidadTotal;
+    }
 
 }

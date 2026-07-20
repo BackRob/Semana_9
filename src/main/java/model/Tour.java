@@ -1,5 +1,6 @@
 package model;
 
+import Exceptions.DatosDuplicados;
 import Exceptions.DuracionInvalida;
 import iu.TipoVentana;
 import util.GestorDatos;
@@ -42,7 +43,17 @@ public class Tour implements IRegistrable{
     //poliformismo
     @Override
     public void registrarEnReserva(Reserva reserva){
+        boolean encontrado=false;
+        for (Tour tour:reserva.getTours()){
+            if (this==tour){
+                encontrado=true;
+            }
+        }
+        if (encontrado==false){
         reserva.getTours().add(this);
+        }else{
+            throw new DatosDuplicados("Tour Duplicado");
+        }
     }
     @Override
     public boolean esTipo(TipoVentana tipoVentana){return tipoVentana==tipoVentana.TOURS;}

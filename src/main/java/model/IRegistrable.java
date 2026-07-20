@@ -8,4 +8,5 @@ public interface IRegistrable {
     void registrarEnReserva(Reserva reserva);
     boolean esTipo(TipoVentana tipo);
     String getIdentificador();
+
 }

@@ -16,6 +16,7 @@ public class VentanaPrincipal extends JFrame {
     private VentanaSecundaria ventanaReservas;
     private final GestorDatos gestorDatos;
 
+
     public VentanaPrincipal() {
         this.gestorDatos = new GestorDatos();
         setTitle("Sistema de Reservas");
@@ -58,16 +59,11 @@ public class VentanaPrincipal extends JFrame {
         });
 
         btnTours.addActionListener(e ->{
-
             if (ventanaTours == null || !ventanaTours.isDisplayable()) {
-
                 ventanaTours =
                         new VentanaSecundaria(TipoVentana.TOURS,gestorDatos);
-
                 ventanaTours.setVisible(true);
-
             } else {
-
                 ventanaTours.toFront();
                 ventanaTours.requestFocus();
 
@@ -75,54 +71,36 @@ public class VentanaPrincipal extends JFrame {
         });
 
         btnVehiculos.addActionListener(e ->{
-
             if (ventanaVehiculos == null || !ventanaVehiculos.isDisplayable()) {
-
                 ventanaVehiculos =
                         new VentanaSecundaria(TipoVentana.VEHICULOS,gestorDatos);
-
                 ventanaVehiculos.setVisible(true);
-
             } else {
-
                 ventanaVehiculos.toFront();
                 ventanaVehiculos.requestFocus();
-
             }
         });
 
         btnGuias.addActionListener(e ->{
-
             if (ventanaGuias == null || !ventanaGuias.isDisplayable()) {
-
                 ventanaGuias =
                         new VentanaSecundaria(TipoVentana.GUIAS,gestorDatos);
-
                 ventanaGuias.setVisible(true);
-
             } else {
-
                 ventanaGuias.toFront();
                 ventanaGuias.requestFocus();
-
             }
         });
 
 
         btnReservas.addActionListener(e ->{
-
             if (ventanaReservas == null || !ventanaReservas.isDisplayable()) {
-
                 ventanaReservas =
                         new VentanaSecundaria(TipoVentana.RESERVAS,gestorDatos);
-
                 ventanaReservas.setVisible(true);
-
             } else {
-
                 ventanaReservas.toFront();
                 ventanaReservas.requestFocus();
-
             }
         });
     }

@@ -8,14 +8,24 @@ public class Reserva{
     private List<Cliente> clientes;
     private List<Vehiculo> vehiculos;
     private List<Guia> guias;
+    private String fecha;
 
+    //Constructor
+    public Reserva(List<Tour> tours,List<Cliente> clientes,List<Vehiculo>vehiculos,List<Guia> guias,String fecha){
+        this.tours = new ArrayList<>(tours);
+        this.clientes = new ArrayList<>(clientes);
+        this.vehiculos = new ArrayList<>(vehiculos);
+        this.guias=new ArrayList<>(guias);
+        this.fecha=fecha;
+    }
 
     //CONSTRUCTORES
-    public Reserva() {
+    public Reserva(String fecha) {
         tours = new ArrayList<>();
         clientes = new ArrayList<>();
         vehiculos = new ArrayList<>();
         guias = new ArrayList<>();
+        this.fecha=fecha;
     }
 
 
@@ -25,8 +35,9 @@ public class Reserva{
     public List<Tour> getTours() {return tours;}
     public List<Cliente> getClientes() {return clientes;}
     public List<Vehiculo> getVehiculos() {return vehiculos;}
+    public String getFecha() {return fecha;}
     public List<Guia> getGuias() {return guias;}
-
+    public void setFecha(String fecha) {this.fecha = fecha;}
 
     public void setTours(List<Tour> tours) {this.tours = tours;}
     public void setClientes(List<Cliente> clientes) {this.clientes = clientes;}
